@@ -7,7 +7,7 @@
 #PBS -S /bin/bash
 
 ## number of nodes, <p>rocessor <p>er <n>ode <each node as 8 processors>
-#PBS -lnodes=1:ppn=8
+#PBS -lnodes=1:ppn=1
 
 ## How much time you want to give your job to finish 48 hours max
 #PBS -lwalltime=00:01:00
@@ -33,4 +33,4 @@ module load mpich-3.2-gcc-4.8.5-vupdix4
 ## This is the path to where the script was called from
 cd $PBS_O_WORKDIR
 
-mpirun -np 8 ./estimatePi 1048576 30
+mpirun -np 2 ./point_to_point **ADD PARAMETERS**
