@@ -37,6 +37,10 @@ int main(int argc, char* argv[])
         }
         double start, time;
         MPI_Status recv_status;
+        FILE * fPtr;
+        char fPath[40];
+        sprintf(fPath,"Problem1/N_%d.txt",N);
+        printf("%s", fPath);
         start = MPI_Wtime();
         if (rank%2 == 0)
         {
@@ -46,10 +50,6 @@ int main(int argc, char* argv[])
             time =  (MPI_Wtime() - start)/2; // divide by two because this is the time for two messages
             avgTime += time/numPingPongs;
             //Save result
-            FILE * fPtr;
-            char fPath[40];
-            sprintf(fPath,"Problem1/N_%d.txt",N);
-            printf("%s", fPath);
             fPtr = fopen(fPath ,"a");
             if (fPtr == NULL) exit(EXIT_FAILURE);
             fprintf(fPtr,"%d, %e",N, time);
