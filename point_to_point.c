@@ -23,7 +23,6 @@ int main(int argc, char* argv[])
     
     int N = atoi(argv[1]);
     int numPingPongs = atoi(argv[2]);
-    double avgTime=0;
     
     for (int npp = 0; npp < numPingPongs; npp++)
     {
@@ -44,6 +43,15 @@ int main(int argc, char* argv[])
             MPI_Barrier(MPI_COMM_WORLD);
             MPI_Recv(recv_message, numDoubles, MPI_DOUBLE, rank+1, 1234, MPI_COMM_WORLD, &recv_status);
             time =  (MPI_Wtime() - start)/2; // divide by two because this is the time for two messages
+            //Save result
+            FILE * fPtr;
+            char fPath[40];
+            sprintf(fPath,"Problem1/N_%d.txt",N);
+            printf("%s", fPath);
+            fPtr = fopen(fPath ,"a");
+            if (fPtr == NULL) exit(EXIT_FAILURE);
+            fprintf(fPtr,"%d, %e",N, time);
+            fclose(fPtr);
         }
         else
         {
@@ -51,7 +59,6 @@ int main(int argc, char* argv[])
             MPI_Barrier(MPI_COMM_WORLD);
             MPI_Send(send_message, numDoubles, MPI_DOUBLE, rank-1, 1234, MPI_COMM_WORLD);
         }
-        avgTime += time/numPingPongs;
         free(send_message);
         free(recv_message);
     }
@@ -61,14 +68,7 @@ int main(int argc, char* argv[])
     //Save the average time to a file
     if (rank == 0)
     {
-        FILE * fPtr;
-        char fPath[40];
-        sprintf(fPath,"Problem1/N_%d.txt",N);
-        printf("%s", fPath);
-        fPtr = fopen(fPath ,"wb");
-        if (fPtr == NULL) exit(EXIT_FAILURE);
-        fprintf(fPtr,"%d, %e",N, avgTime);
-        fclose(fPtr);
+
     }
 
     return (0);
