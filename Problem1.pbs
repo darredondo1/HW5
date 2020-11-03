@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ## Which que to run from <default> or <debug>
-#PBS -q debug
+#PBS -q default
 
 ## Specify bash as terminal
 #PBS -S /bin/bash
@@ -10,7 +10,7 @@
 #PBS -lnodes=1:ppn=1
 
 ## How much time you want to give your job to finish 48 hours max
-#PBS -lwalltime=00:01:00
+#PBS -lwalltime=00:10:00
 
 ## Where to place the run info <whatever_name_you_want>
 #PBS -N darredondo_CS542_p2
@@ -33,4 +33,27 @@ module load mpich-3.2-gcc-4.8.5-vupdix4
 ## This is the path to where the script was called from
 cd $PBS_O_WORKDIR
 
-mpirun -np 2 ./point_to_point 0 1000
+mpirun -np 2 ./point_to_point 0 10000
+mpirun -np 2 ./point_to_point 1 10000
+mpirun -np 2 ./point_to_point 2 10000
+mpirun -np 2 ./point_to_point 3 10000
+mpirun -np 2 ./point_to_point 4 10000
+mpirun -np 2 ./point_to_point 5 10000
+mpirun -np 2 ./point_to_point 6 10000
+mpirun -np 2 ./point_to_point 7 10000
+mpirun -np 2 ./point_to_point 8 10000
+mpirun -np 2 ./point_to_point 9 10000
+mpirun -np 2 ./point_to_point 10 10000
+mpirun -np 2 ./point_to_point 11 10000
+mpirun -np 2 ./point_to_point 12 10000
+mpirun -np 2 ./point_to_point 13 10000
+mpirun -np 2 ./point_to_point 14 10000
+mpirun -np 2 ./point_to_point 15 10000
+
+
+
+
+
+
+
+
