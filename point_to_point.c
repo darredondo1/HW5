@@ -25,6 +25,11 @@ int main(int argc, char* argv[])
     int numPingPongs = atoi(argv[2]);
     double avgTime=0;
     
+    FILE * fPtr;
+    char fPath[40];
+    sprintf(fPath,"Problem1/N_%d.txt",N);
+    printf("%s", fPath);
+    
     for (int npp = 0; npp < numPingPongs; npp++)
     {
         //create vector of 2^N random values
@@ -37,10 +42,6 @@ int main(int argc, char* argv[])
         }
         double start, time;
         MPI_Status recv_status;
-        FILE * fPtr;
-        char fPath[40];
-        sprintf(fPath,"Problem1/N_%d.txt",N);
-        printf("%s", fPath);
         start = MPI_Wtime();
         if (rank%2 == 0)
         {
