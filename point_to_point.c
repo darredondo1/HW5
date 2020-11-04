@@ -53,7 +53,7 @@ int main(int argc, char* argv[])
             //Save result
             fPtr = fopen(fPath ,"a");
             if (fPtr == NULL) exit(EXIT_FAILURE);
-            fprintf(fPtr,"%d, %e\n",N, time);
+            fprintf(fPtr,"%e\n",time);
             fclose(fPtr);
         }
         else
