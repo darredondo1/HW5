@@ -40,6 +40,7 @@ int main(int argc, char* argv[])
         {
             send_message[i] = (double) rand();
         }
+        MPI_Barrier(MPI_COMM_WORLD);
         double start, time;
         MPI_Status recv_status;
         start = MPI_Wtime();
