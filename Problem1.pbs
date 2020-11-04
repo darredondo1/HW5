@@ -56,4 +56,3 @@ mpirun -np 2 ./point_to_point 15 10000
 
 
 
-
