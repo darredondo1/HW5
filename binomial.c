@@ -51,14 +51,14 @@ int main(int argc, char* argv[])
                 {
                     MPI_Status send_status;
                     MPI_Request send_request;
-                    MPI_ISend(send_message, numDoubles, MPI_DOUBLE, rank+newspacing,k,MPI_COMM_WORLD,&send_request);
+                    MPI_Isend(send_message, numDoubles, MPI_DOUBLE, rank+newspacing,k,MPI_COMM_WORLD,&send_request);
                 }
                 else if (rank==i*spacing+newspacing) //RECEIVERS
                 {
                     MPI_Status recv_status;
                     MPI_Request recv_request;
                     double* recv_message = (double*)malloc(numDoubles*sizeof(double));
-                    MPI_IRecv(recv_message, numDoubles, MPI_DOUBLE,
+                    MPI_Irecv(recv_message, numDoubles, MPI_DOUBLE,
                               rank-newspacing,k,MPI_COMM_WORLD,&recv_request);
                     double* send_message = recv_message;
                 }
