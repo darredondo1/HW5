@@ -20,8 +20,7 @@ int main(int argc, char* argv[])
     //make file
     FILE * fPtr;
     char fPath[40];
-    sprintf(fPath,"Problem3/Binomial_N_%d.txt",N);
-    
+    sprintf(fPath,"Problem3/Binomial_N_%d.txt",N);   
     int numDoubles = 1 << N;
     double* send_message = (double*)malloc(numDoubles*sizeof(double));
     
@@ -39,7 +38,8 @@ int main(int argc, char* argv[])
     double start, time;
     for (int n=0;n<numTests;n++)
     {
-        start = MPI_Wtime();
+        MPI_Barrier(MPI_COMM_WORLD);
+	start = MPI_Wtime();
         for (int k=1;k<=nk;k++) //NUM STEPS NEEDED TO BROADCAST TO ALL NODES
         {
             int  num_sources = pow(2,k-1); //NUM PROCS AT STEP K THAT HAVE DATA
@@ -70,13 +70,18 @@ int main(int argc, char* argv[])
             if (recv==1)
                 MPI_Wait(&recv_request,&recv_status);
         }
+	MPI_Barrier(MPI_COMM_WORLD);
         time =  (MPI_Wtime() - start);
         
-        //Save result
-        fPtr = fopen(fPath ,"a");
-        if (fPtr == NULL) exit(EXIT_FAILURE);
-        fprintf(fPtr,"%e\n",time);
-        fclose(fPtr);
+	
+        if (rank==0)
+	{
+		//Save result
+		fPtr = fopen(fPath ,"a");
+		if (fPtr == NULL) exit(EXIT_FAILURE);
+		fprintf(fPtr,"%e\n",time);
+		fclose(fPtr);
+	}
     }
     MPI_Finalize();
 
