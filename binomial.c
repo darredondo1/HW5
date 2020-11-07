@@ -72,9 +72,6 @@ int main(int argc, char* argv[])
         if (fPtr == NULL) exit(EXIT_FAILURE);
         fprintf(fPtr,"%e\n",time);
         fclose(fPtr);
-
-        free(send_message);
-        free(recv_message);
     }
     MPI_Finalize();
 
