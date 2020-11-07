@@ -37,10 +37,10 @@ int main(int argc, char* argv[])
     int nk = (int) log2(num_procs);
     
     double start, time;
-    for (n=0,n<numTests,n++)
+    for (int n=0,n<numTests,n++)
     {
         start = MPI_Wtime();
-        for (k=1;k<=nk;k++) //NUM STEPS NEEDED TO BROADCAST TO ALL NODES
+        for (int k=1;k<=nk;k++) //NUM STEPS NEEDED TO BROADCAST TO ALL NODES
         {
             int  num_sources = pow(2,k-1); //NUM PROCS AT STEP K THAT HAVE DATA
             int spacing = pow(2,nk-k+1);   //SPACING BETWEEN SOURCES
