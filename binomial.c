@@ -66,8 +66,10 @@ int main(int argc, char* argv[])
                     double* send_message = recv_message;
                 }
             }
-            if send MPI_Wait(&send_request,&send_status);
-            if recv MPI_Wait(&recv_request,&recv_status);
+            if send
+                MPI_Wait(&send_request,&send_status);
+            if recv
+                MPI_Wait(&recv_request,&recv_status);
         }
         time =  (MPI_Wtime() - start);
         
