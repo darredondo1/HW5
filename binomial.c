@@ -15,58 +15,68 @@ int main(int argc, char* argv[])
     MPI_Comm_size(MPI_COMM_WORLD, &num_procs);
     
     int N = atoi(argv[1]);
-    int numPingPongs = atoi(argv[2]);
-    double avgTime=0;
+    int numTests = atoi(argv[2])
     
+    //make file
     FILE * fPtr;
     char fPath[40];
-    sprintf(fPath,"Problem1/N_%d.txt",N);
+    sprintf(fPath,"Problem3/Binomial_N_%d.txt",N);
     printf("%s", fPath);
     
-    for (int npp = 0; npp < numPingPongs; npp++)
+    //create vector of 2^N random values
+    if rank==0
     {
-        //create vector of 2^N random values
         int numDoubles = 1 << N;
         double* send_message = (double*)malloc(numDoubles*sizeof(double));
-        double* recv_message = (double*)malloc(numDoubles*sizeof(double));
         for (int i = 0; i < numDoubles; i++)
         {
             send_message[i] = (double) rand();
         }
-        MPI_Barrier(MPI_COMM_WORLD);
-        double start, time;
-        MPI_Status recv_status;
+    }
+    
+    int nk = (int) log2(num_procs);
+    
+    double start, time;
+    for (n=0,n<numTests,n++)
+    {
         start = MPI_Wtime();
-        if (rank%2 == 0)
+        for (k=1;k<=nk;k++) //NUM STEPS NEEDED TO BROADCAST TO ALL NODES
         {
-            MPI_Send(send_message, numDoubles, MPI_DOUBLE, rank+1, 1234, MPI_COMM_WORLD);
-            MPI_Barrier(MPI_COMM_WORLD);
-            MPI_Recv(recv_message, numDoubles, MPI_DOUBLE, rank+1, 1234, MPI_COMM_WORLD, &recv_status);
-            time =  (MPI_Wtime() - start)/2; // divide by two because this is the time for two messages
-            avgTime += time/numPingPongs;
-            //Save result
-            fPtr = fopen(fPath ,"a");
-            if (fPtr == NULL) exit(EXIT_FAILURE);
-            fprintf(fPtr,"%e\n",time);
-            fclose(fPtr);
+            int  num_sources = pow(2,k-1); //NUM PROCS AT STEP K THAT HAVE DATA
+            int spacing = pow(2,nk-k+1);   //SPACING BETWEEN SOURCES
+            int newspacing = pow(2,nk-k);  //HOW FAR TO SEND DATA
+            for (i=0;i<num_sources;i++)
+            {
+                if rank==i*spacing //SENDERS
+                {
+                    MPI_Status send_status;
+                    MPI_Request send_request;
+                    MPI_ISend(send_message, numDoubles, MPI_DOUBLE, rank+newspacing,k,MPI_COMM_WORLD,&send_request);
+                }
+                else if rank==i*spacing+newspacing //RECEIVERS
+                {
+                    MPI_Status recv_status;
+                    MPI_Request recv_request;
+                    double* recv_message = (double*)malloc(numDoubles*sizeof(double));
+                    MPI_IRecv(recv_message, numDoubles, MPI_DOUBLE,
+                              rank-newspacing,k,MPI_COMM_WORLD,&recv_request);
+                }
+            }
+            MPI_Wait(&send_request,&send_status);
+            MPI_Wait(&recv_request,&recv_status);
         }
-        else
-        {
-            MPI_Recv(recv_message, numDoubles, MPI_DOUBLE, rank-1, 1234, MPI_COMM_WORLD, &recv_status);
-            MPI_Barrier(MPI_COMM_WORLD);
-            MPI_Send(send_message, numDoubles, MPI_DOUBLE, rank-1, 1234, MPI_COMM_WORLD);
-        }
+        time =  (MPI_Wtime() - start);
+        
+        //Save result
+        fPtr = fopen(fPath ,"a");
+        if (fPtr == NULL) exit(EXIT_FAILURE);
+        fprintf(fPtr,"%e\n",time);
+        fclose(fPtr);
+
         free(send_message);
         free(recv_message);
     }
     MPI_Finalize();
-    if (rank==0) printf("Avg ping-pong %e\n",avgTime);
-    
-    //Save the average time to a file
-    if (rank == 0)
-    {
-
-    }
 
     return (0);
 }
