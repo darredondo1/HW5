@@ -15,7 +15,7 @@ int main(int argc, char* argv[])
     MPI_Comm_size(MPI_COMM_WORLD, &num_procs);
     
     int N = atoi(argv[1]);
-    int numTests = atoi(argv[2])
+    int numTests = atoi(argv[2]);
     
     //make file
     FILE * fPtr;
