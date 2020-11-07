@@ -45,7 +45,7 @@ int main(int argc, char* argv[])
             int  num_sources = pow(2,k-1); //NUM PROCS AT STEP K THAT HAVE DATA
             int spacing = pow(2,nk-k+1);   //SPACING BETWEEN SOURCES
             int newspacing = pow(2,nk-k);  //HOW FAR TO SEND DATA
-            for (i=0;i<num_sources;i++)
+            for (int i=0;i<num_sources;i++)
             {
                 if (rank==i*spacing) //SENDERS
                 {
