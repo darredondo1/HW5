@@ -60,6 +60,7 @@ int main(int argc, char* argv[])
                     double* recv_message = (double*)malloc(numDoubles*sizeof(double));
                     MPI_IRecv(recv_message, numDoubles, MPI_DOUBLE,
                               rank-newspacing,k,MPI_COMM_WORLD,&recv_request);
+                    double* send_message = recv_message;
                 }
             }
             MPI_Wait(&send_request,&send_status);
