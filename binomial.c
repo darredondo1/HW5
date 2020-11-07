@@ -48,22 +48,26 @@ int main(int argc, char* argv[])
             int newspacing = pow(2,nk-k);  //HOW FAR TO SEND DATA
             MPI_Status send_status, recv_status;
             MPI_Request send_request, recv_request;
+            bool send = False;
+            bool recv = False;
             for (int i=0;i<num_sources;i++)
             {
                 if (rank==i*spacing) //SENDERS
                 {
+                    send=True;
                     MPI_Isend(send_message, numDoubles, MPI_DOUBLE, rank+newspacing,k,MPI_COMM_WORLD,&send_request);
                 }
                 else if (rank==i*spacing+newspacing) //RECEIVERS
                 {
+                    recv=True;
                     double* recv_message = (double*)malloc(numDoubles*sizeof(double));
                     MPI_Irecv(recv_message, numDoubles, MPI_DOUBLE,
                               rank-newspacing,k,MPI_COMM_WORLD,&recv_request);
                     double* send_message = recv_message;
                 }
             }
-            MPI_Wait(&send_request,&send_status);
-            MPI_Wait(&recv_request,&recv_status);
+            if send MPI_Wait(&send_request,&send_status);
+            if recv MPI_Wait(&recv_request,&recv_status);
         }
         time =  (MPI_Wtime() - start);
         
