@@ -21,7 +21,6 @@ int main(int argc, char* argv[])
     FILE * fPtr;
     char fPath[40];
     sprintf(fPath,"Problem3/Binomial_N_%d.txt",N);
-    printf("%s", fPath);
     
     int numDoubles = 1 << N;
     double* send_message = (double*)malloc(numDoubles*sizeof(double));
