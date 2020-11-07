@@ -24,7 +24,7 @@ int main(int argc, char* argv[])
     printf("%s", fPath);
     
     //create vector of 2^N random values
-    if rank==0
+    if (rank==0)
     {
         int numDoubles = 1 << N;
         double* send_message = (double*)malloc(numDoubles*sizeof(double));
@@ -37,7 +37,7 @@ int main(int argc, char* argv[])
     int nk = (int) log2(num_procs);
     
     double start, time;
-    for (int n=0,n<numTests,n++)
+    for (int n=0;n<numTests;n++)
     {
         start = MPI_Wtime();
         for (int k=1;k<=nk;k++) //NUM STEPS NEEDED TO BROADCAST TO ALL NODES
@@ -47,13 +47,13 @@ int main(int argc, char* argv[])
             int newspacing = pow(2,nk-k);  //HOW FAR TO SEND DATA
             for (i=0;i<num_sources;i++)
             {
-                if rank==i*spacing //SENDERS
+                if (rank==i*spacing) //SENDERS
                 {
                     MPI_Status send_status;
                     MPI_Request send_request;
                     MPI_ISend(send_message, numDoubles, MPI_DOUBLE, rank+newspacing,k,MPI_COMM_WORLD,&send_request);
                 }
-                else if rank==i*spacing+newspacing //RECEIVERS
+                else if (rank==i*spacing+newspacing) //RECEIVERS
                 {
                     MPI_Status recv_status;
                     MPI_Request recv_request;
