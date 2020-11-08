@@ -43,7 +43,7 @@ int main(int argc, char* argv[])
         
         MPI_Scatter(send_message,blockSize,MPI_DOUBLE,last_message,MPI_DOUBLE,0,MPI_COMM_WORLD);
         
-        send_message[rank*blockSize] = last_message;
+        send_message[rank*blockSize] = *last_message;
         
         for (int k=0;k<num_procs;k++)
         {
@@ -52,7 +52,7 @@ int main(int argc, char* argv[])
             MPI_Isend(last_message,blockSize,MPI_DOUBLE,(rank+1)%num_procs,k,MPI_COMM_WORLD,&send_request);
             MPI_Irecv(last_message,blockSize,MPI_DOUBLE,(rank-1)%num_procs,k,MPI_COMM_WORLD,&recv_request);
             int idx = (int) ((rank+k)*blockSize)%num_procs;
-            send_message[idx]=last_message;
+            send_message[idx]=*last_message;
             MPI_Wait(&send_request,&send_status);
             MPI_Wait(&recv_request,&recv_status);
         }
