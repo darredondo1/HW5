@@ -13,7 +13,6 @@ int main(int argc, char* argv[])
     int rank, num_procs;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &num_procs);
-    printf("rank %d, num_procs %d\n",rank,num_procs);
     
     int N = atoi(argv[1]);
     int numTests = atoi(argv[2]);
@@ -26,6 +25,8 @@ int main(int argc, char* argv[])
     int blockSize = (int) (numDoubles / num_procs);
     double* send_message = (double*)malloc(numDoubles*sizeof(double));
     double* last_message = (double*)malloc(blockSize*sizeof(double));
+    
+    printf("rank %d, num_procs %d\n",rank,num_procs);
     
     //create vector of 2^N random values
     if (rank==0)
