@@ -45,12 +45,14 @@ int main(int argc, char* argv[])
         
         send_message[rank*blockSize] = *last_message;
         
-        for (int k=0;k<num_procs;k++)
+        for (int k=1;k<num_procs;k++)
         {
             MPI_Status send_status, recv_status;
             MPI_Request send_request, recv_request;
-            MPI_Isend(last_message,blockSize,MPI_DOUBLE,(rank+1)%num_procs,k,MPI_COMM_WORLD,&send_request);
-            MPI_Irecv(last_message,blockSize,MPI_DOUBLE,(rank-1)%num_procs,k,MPI_COMM_WORLD,&recv_request);
+            int send_to = (int) (rank+1)%num_procs;
+            int recv_from = (int) (rank-1)%num_procs;
+            MPI_Isend(last_message,blockSize,MPI_DOUBLE,send_to,k,MPI_COMM_WORLD,&send_request);
+            MPI_Irecv(last_message,blockSize,MPI_DOUBLE,recv_from,k,MPI_COMM_WORLD,&recv_request);
             int idx = (int) ((rank+k)*blockSize)%num_procs;
             send_message[idx]=*last_message;
             MPI_Wait(&send_request,&send_status);
