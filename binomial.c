@@ -20,7 +20,7 @@ int main(int argc, char* argv[])
     //make file
     FILE * fPtr;
     char fPath[40];
-    sprintf(fPath,"Problem3/Binomial_N_%d.txt",N);   
+    sprintf(fPath,"Problem3/nprocs_%d/Binomial_N_%d.txt",num_procs,N);   
     int numDoubles = 1 << N;
     double* send_message = (double*)malloc(numDoubles*sizeof(double));
     
