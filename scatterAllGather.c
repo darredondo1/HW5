@@ -19,7 +19,7 @@ int main(int argc, char* argv[])
     
     //make file
     FILE * fPtr;
-    char fPath[40];
+    char fPath[100];
     sprintf(fPath,"Problem3/ScatterAllGather/nprocs_%d/ScatterAllGather_N_%d.txt",num_procs,N);
     int numDoubles = 1 << N;
     int blockSize = (int) (numDoubles / num_procs);
@@ -51,7 +51,6 @@ int main(int argc, char* argv[])
             MPI_Request send_request, recv_request;
             int send_to = (int) (rank+1)%num_procs;
             int recv_from = (int) (rank-1)%num_procs;
-            printf("rank %d, send_to %d, recv_from %d\n",rank,send_to,recv_from);
             MPI_Isend(last_message,blockSize,MPI_DOUBLE,send_to,k,MPI_COMM_WORLD,&send_request);
             MPI_Irecv(last_message,blockSize,MPI_DOUBLE,recv_from,k,MPI_COMM_WORLD,&recv_request);
             int idx = (int) ((rank+k)*blockSize)%num_procs;
