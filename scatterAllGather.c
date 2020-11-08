@@ -51,7 +51,7 @@ int main(int argc, char* argv[])
             MPI_Request send_request, recv_request;
             int send_to = (int) (rank+1)%num_procs;
             int recv_from = (int) (rank-1)%num_procs;
-            fprintf("send to %d",send_to);
+            printf("send to %d",send_to);
             MPI_Isend(last_message,blockSize,MPI_DOUBLE,send_to,k,MPI_COMM_WORLD,&send_request);
             MPI_Irecv(last_message,blockSize,MPI_DOUBLE,recv_from,k,MPI_COMM_WORLD,&recv_request);
             int idx = (int) ((rank+k)*blockSize)%num_procs;
