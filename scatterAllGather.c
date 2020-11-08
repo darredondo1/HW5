@@ -41,7 +41,7 @@ int main(int argc, char* argv[])
         MPI_Barrier(MPI_COMM_WORLD);
         start = MPI_Wtime();
         
-        MPI_Scatter(send_message,blockSize,MPI_DOUBLE,last_message,MPI_DOUBLE,0,MPI_COMM_WORLD);
+        MPI_Scatter(send_message,blockSize,MPI_DOUBLE,last_message,blockSize,  MPI_DOUBLE,0,MPI_COMM_WORLD);
         
         send_message[rank*blockSize] = *last_message;
         
