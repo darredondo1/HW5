@@ -19,7 +19,7 @@ int main(int argc, char* argv[])
     
     //make file
     FILE * fPtr;
-    char fPath[40];
+    char fPath[100];
     sprintf(fPath,"Problem3/BinomialTreeBroadcast/nprocs_%d/Binomial_N_%d.txt",num_procs,N);   
     int numDoubles = 1 << N;
     double* send_message = (double*)malloc(numDoubles*sizeof(double));
