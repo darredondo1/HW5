@@ -7,7 +7,7 @@
 #PBS -S /bin/bash
 
 ## number of nodes, <p>rocessor <p>er <n>ode <each node as 8 processors>
-#PBS -lnodes=4:ppn=8
+#PBS -lnodes=2:ppn=8
 
 ## How much time you want to give your job to finish 48 hours max
 #PBS -lwalltime=00:20:00
@@ -33,32 +33,32 @@ module load mpich-3.2-gcc-4.8.5-vupdix4
 ## This is the path to where the script was called from
 cd $PBS_O_WORKDIR
 
-mpirun -np 32 ./binomial 0 33
-mpirun -np 32 ./binomial 1 33
-mpirun -np 32 ./binomial 2 33
-mpirun -np 32 ./binomial 3 33
-mpirun -np 32 ./binomial 4 33
-mpirun -np 32 ./binomial 5 33
-mpirun -np 32 ./binomial 6 33
-mpirun -np 32 ./binomial 7 33
-mpirun -np 32 ./binomial 8 33
-mpirun -np 32 ./binomial 9 33
-mpirun -np 32 ./binomial 10 33
-mpirun -np 32 ./binomial 11 33
-mpirun -np 32 ./binomial 12 33
-mpirun -np 32 ./binomial 13 33
-mpirun -np 32 ./binomial 14 33
-mpirun -np 32 ./binomial 15 33
-mpirun -np 32 ./binomial 16 33
-mpirun -np 32 ./binomial 17 33
-mpirun -np 32 ./binomial 18 33
-mpirun -np 32 ./binomial 19 33
-mpirun -np 32 ./binomial 20 33
-mpirun -np 32 ./binomial 21 33
-mpirun -np 32 ./binomial 22 33
-mpirun -np 32 ./binomial 23 33
-mpirun -np 32 ./binomial 24 33
-mpirun -np 32 ./binomial 25 33
+mpirun -np 16 ./binomial 0 33
+mpirun -np 16 ./binomial 1 33
+mpirun -np 16 ./binomial 2 33
+mpirun -np 16 ./binomial 3 33
+mpirun -np 16 ./binomial 4 33
+mpirun -np 16 ./binomial 5 33
+mpirun -np 16 ./binomial 6 33
+mpirun -np 16 ./binomial 7 33
+mpirun -np 16 ./binomial 8 33
+mpirun -np 16 ./binomial 9 33
+mpirun -np 16 ./binomial 10 33
+mpirun -np 16 ./binomial 11 33
+mpirun -np 16 ./binomial 12 33
+mpirun -np 16 ./binomial 13 33
+mpirun -np 16 ./binomial 14 33
+mpirun -np 16 ./binomial 15 33
+mpirun -np 16 ./binomial 16 33
+mpirun -np 16 ./binomial 17 33
+mpirun -np 16 ./binomial 18 33
+mpirun -np 16 ./binomial 19 33
+mpirun -np 16 ./binomial 20 33
+mpirun -np 16 ./binomial 21 33
+mpirun -np 16 ./binomial 22 33
+mpirun -np 16 ./binomial 23 33
+mpirun -np 16 ./binomial 24 33
+mpirun -np 16 ./binomial 25 33
 
 
 
