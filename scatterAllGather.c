@@ -23,6 +23,7 @@ int main(int argc, char* argv[])
     sprintf(fPath,"Problem3/ScatterAllGather/nprocs_%d/ScatterAllGather_N_%d.txt",num_procs,N);
     int numDoubles = 1 << N;
     int blockSize = (int) (numDoubles / num_procs);
+    printf("rank %d, num_procs %d, blockSize %d\n",rank,num_procs,blockSize);
     double* send_message = (double*)malloc(numDoubles*sizeof(double));
     double* last_message = (double*)malloc(blockSize*sizeof(double));
     
