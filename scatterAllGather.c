@@ -20,8 +20,8 @@ int main(int argc, char* argv[])
     //make file
     FILE * fPtr;
     char fPath[40];
-    sprintf(fPath,"Problem3/ScatterAllGather/nprocs_%d/ScatterAllGather_N_%d.txt",num_procs,N);
     printf("rank %d, num_procs %d\n",rank,num_procs);
+    sprintf(fPath,"Problem3/ScatterAllGather/nprocs_%d/ScatterAllGather_N_%d.txt",num_procs,N);
     int numDoubles = 1 << N;
     int blockSize = (int) (numDoubles / num_procs);
     double* send_message = (double*)malloc(numDoubles*sizeof(double));
