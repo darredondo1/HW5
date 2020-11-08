@@ -47,6 +47,8 @@ int main(int argc, char* argv[])
         
         for (int k=0;k<num_procs;k++)
         {
+            MPI_Status send_status, recv_status;
+            MPI_Request send_request, recv_request;
             MPI_Isend(last_message,blockSize,MPI_DOUBLE,(rank+1)%num_procs,k,MPI_COMM_WORLD,&send_request);
             MPI_Irecv(last_message,blockSize,MPI_DOUBLE,(rank-1)%num_procs,k,MPI_COMM_WORLD,&recv_request);
             int idx = (int) ((rank+k)*blockSize)%num_procs
