@@ -59,10 +59,8 @@ int main(int argc, char* argv[])
                 else if (rank==i*spacing+newspacing) //RECEIVERS
                 {
                     recv=1;
-                    double* recv_message = (double*)malloc(numDoubles*sizeof(double));
-                    MPI_Irecv(recv_message, numDoubles, MPI_DOUBLE,
+                    MPI_Irecv(send_message, numDoubles, MPI_DOUBLE,
                               rank-newspacing,k,MPI_COMM_WORLD,&recv_request);
-                    double* send_message = recv_message;
                 }
             }
             if (send==1)
