@@ -43,7 +43,6 @@ int main(int argc, char* argv[])
             for (int i = 0; i < numDoubles; i++)
             {
                 allData[i] = (double) rand();
-                printf("rand i %d %e\n",i,allData[i]);
                 sum += allData[i];
             }
         }
