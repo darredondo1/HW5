@@ -25,13 +25,12 @@ int main(int argc, char* argv[])
     int numDoubles = 1 << N;
     int blockSize = (int) (numDoubles / num_procs);
     
-    //send_message in rank 0 will be the data to be broadcast
-    //send_message in all other ranks will update at each step in the ring to eventually hold all of the broadcast data
-    double* send_message = (double*)malloc(numDoubles*sizeof(double));
-    double* last_message = (double*)malloc(blockSize*sizeof(double));
-    
     for (int n=0;n<numTests;n++)
     {
+        //send_message in rank 0 will be the data to be broadcast
+        //send_message in all other ranks will update at each step in the ring to eventually hold all of the broadcast data
+        double* send_message = (double*)malloc(numDoubles*sizeof(double));
+        double* last_message = (double*)malloc(blockSize*sizeof(double));
         double start, time;
         MPI_Barrier(MPI_COMM_WORLD);
         
@@ -96,6 +95,8 @@ int main(int argc, char* argv[])
             fprintf(fPtr,"%e\n",time);
             fclose(fPtr);
         }
+        free(send_message);
+        free(last_message);
     }
     MPI_Finalize();
 
