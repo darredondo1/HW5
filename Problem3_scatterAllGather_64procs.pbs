@@ -1,0 +1,60 @@
+#!/bin/bash
+
+## Which que to run from <default> or <debug>
+#PBS -q default
+
+## Specify bash as terminal
+#PBS -S /bin/bash
+
+## number of nodes, <p>rocessor <p>er <n>ode <each node as 8 processors>
+#PBS -lnodes=8:ppn=8
+
+## How much time you want to give your job to finish 48 hours max
+#PBS -lwalltime=00:30:00
+
+## Where to place the run info <whatever_name_you_want>
+#PBS -N darredondo_CS542_p2
+
+## Log the <o>utput and <e>rrors to file
+#PBS -j oe
+
+## Email me for <b>eginning <a>bort <e>nd
+#PBS -m bae
+
+## What email to send to
+#PBS -M darredondo@unm.edu
+
+## Execute .bashrc
+source /users/dandreas/.bashrc
+
+## Load up miniconda
+module load mpich-3.2-gcc-4.8.5-vupdix4 
+
+## This is the path to where the script was called from
+cd $PBS_O_WORKDIR
+
+mpirun -np 64 ./scatterAllGather 6 33
+mpirun -np 64 ./scatterAllGather 7 33
+mpirun -np 64 ./scatterAllGather 8 33
+mpirun -np 64 ./scatterAllGather 9 33
+mpirun -np 64 ./scatterAllGather 10 33
+mpirun -np 64 ./scatterAllGather 11 33
+mpirun -np 64 ./scatterAllGather 12 33
+mpirun -np 64 ./scatterAllGather 13 33
+mpirun -np 64 ./scatterAllGather 14 33
+mpirun -np 64 ./scatterAllGather 15 33
+mpirun -np 64 ./scatterAllGather 16 33
+mpirun -np 64 ./scatterAllGather 17 33
+mpirun -np 64 ./scatterAllGather 18 33
+mpirun -np 64 ./scatterAllGather 19 33
+mpirun -np 64 ./scatterAllGather 20 33
+mpirun -np 64 ./scatterAllGather 21 33
+mpirun -np 64 ./scatterAllGather 22 33
+mpirun -np 64 ./scatterAllGather 23 33
+mpirun -np 64 ./scatterAllGather 24 33
+mpirun -np 64 ./scatterAllGather 25 33
+
+
+
+
+
