@@ -69,14 +69,11 @@ int main(int argc, char* argv[])
             MPI_Wait(&recv_request,&recv_status);
             
             //update send_message with the latest message
+            //update allData with the latest message
             int idx = (int) ((rank+num_procs-k)%num_procs)*blockSize;
             for (int j = 0; j < blockSize; j++)
             {
                 send_message[j] = recv_message[j];
-                if (rank==1)
-                {
-                    printf("rank %d last_message %e\n",rank,send_message[j]);
-                }
                 allData[idx+j] = send_message[j];
             }
         }
