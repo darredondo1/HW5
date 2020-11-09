@@ -61,7 +61,7 @@ int main(int argc, char* argv[])
             MPI_Status send_status, recv_status;
             MPI_Request send_request, recv_request;
             int send_to = (int) (rank+1)%num_procs;
-            int recv_from = (int) abs((rank-1)%num_procs);
+            int recv_from = (int) (rank+num_procs-1)%num_procs;
             printf("rank %d recv_from %d\n",rank,recv_from);
             MPI_Isend(last_message,blockSize,MPI_DOUBLE,send_to,k,MPI_COMM_WORLD,&send_request);
             MPI_Barrier(MPI_COMM_WORLD);
@@ -70,7 +70,7 @@ int main(int argc, char* argv[])
             MPI_Wait(&recv_request,&recv_status);
             
             //update send_message with the latest message
-            int idx = (int) ((abs(rank-k)%num_procs)*blockSize);
+            int idx = (int) ((rank+num_procs-k)%num_procs)*blockSize;
             for (int j = 0; j < blockSize; j++)
             {
 //                if (rank==1)
