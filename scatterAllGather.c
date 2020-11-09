@@ -34,7 +34,6 @@ int main(int argc, char* argv[])
     for (int n=0;n<numTests;n++)
     {
         double start, time;
-        MPI_Barrier(MPI_COMM_WORLD);
         
         //create vector of 2^N random values
         if (rank==0)
@@ -47,15 +46,20 @@ int main(int argc, char* argv[])
             }
         }
         
+        //START TIMING
+        MPI_Barrier(MPI_COMM_WORLD);
         start = MPI_Wtime();
         
+        //SCATTER FROM PROCESS 0
         MPI_Scatter(allData,blockSize,MPI_DOUBLE,send_message,blockSize,  MPI_DOUBLE,0,MPI_COMM_WORLD);
         
+        //UPDATE allData WITH VALUES RECEIVED FROM SCATTER
         for (int j = 0; j < blockSize; j++)
         {
             allData[rank*blockSize + j] = send_message[j];
         }
         
+        //RING ALGORITHM
         for (int k=1;k<num_procs;k++)
         {
             MPI_Status send_status, recv_status;
