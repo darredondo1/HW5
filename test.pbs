@@ -33,7 +33,7 @@ module load mpich-3.2-gcc-4.8.5-vupdix4
 ## This is the path to where the script was called from
 cd $PBS_O_WORKDIR
 
-mpirun -np 16 ./scatterAllGather 4 1
+mpirun -np 16 ./scatterAllGather 10 1
 
 
 
