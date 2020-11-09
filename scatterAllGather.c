@@ -89,7 +89,7 @@ int main(int argc, char* argv[])
             sum2=0;
             for (int i=0;i<numDoubles;i++)
             {
-                sum2 += send_message[i];
+                sum2 += allData[i];
             }
             printf("rank %d sum %e\n",rank,sum2);
         }
