@@ -77,7 +77,7 @@ int main(int argc, char* argv[])
             {
                 sum2+=send_message[i];
             }
-            printf("sum rank %d %e\n",num_procs,summ);
+            printf("sum rank %d %e\n",num_procs,sum2);
         }
         
         if (rank==0)
