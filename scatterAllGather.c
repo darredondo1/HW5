@@ -10,7 +10,7 @@
 int main(int argc, char* argv[])
 {
     MPI_Init(&argc, &argv);
-    int rank, num_procs;
+    int rank, num_procs, sum, sum2;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &num_procs);
     
@@ -72,10 +72,10 @@ int main(int argc, char* argv[])
 
         if (rank==1)
         {
-            double summ = 0;
+            double sum2 = 0;
             for (int i=0;i<numDoubles;n++)
             {
-                summ+=send_message[i];
+                sum2+=send_message[i];
             }
             printf("sum rank %d %e\n",num_procs,summ);
         }
