@@ -79,12 +79,12 @@ int main(int argc, char* argv[])
             {
                 sum2 += send_message[i];
             }
-            printf("rank %d sum %e",rank,sum2);
+            printf("rank %d sum %e\n",rank,sum2);
         }
         
         if (rank==0)
         {
-            printf("rank %d sum %e",rank,sum);
+            printf("rank %d sum %e\n",rank,sum);
             //Save result
             fPtr = fopen(fPath ,"a");
             if (fPtr == NULL) exit(EXIT_FAILURE);
