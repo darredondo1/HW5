@@ -60,7 +60,7 @@ int main(int argc, char* argv[])
             int recv_from = (int) (rank-1)%num_procs;
             MPI_Isend(last_message,blockSize,MPI_DOUBLE,send_to,k,MPI_COMM_WORLD,&send_request);
             MPI_Irecv(last_message,blockSize,MPI_DOUBLE,recv_from,k,MPI_COMM_WORLD,&recv_request);
-            int idx = (int) ((rank+k)*blockSize)%num_procs;
+            int idx = (int) ((rank+k)*blockSize)%numDoubles;
             for (int j = 0; j < blockSize; j++)
             {
                 send_message[idx+j] = last_message[j];
