@@ -1,9 +1,0 @@
-Wheeler Portable Batch System Prologue
-Job Id: 788254.wheeler-sn.alliance.unm.edu
-Username: dandreas
-Job 788254.wheeler-sn.alliance.unm.edu running on nodes:
-wheeler046 wheeler045 
-
-prologue running on host: wheeler046
-=>> PBS: job killed: walltime 612 exceeded limit 600
-Wheeler Portable Batch System Epilogue

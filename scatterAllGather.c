@@ -25,8 +25,8 @@ int main(int argc, char* argv[])
     int numDoubles = 1 << N;
     int blockSize = (int) (numDoubles / num_procs);
     
-    //send_message in rank 0 will be the data to be broadcast
-    //send_message in all other ranks will update at each step in the ring to eventually hold all of the broadcast data
+    //allData in rank 0 will be the data to be broadcast
+    //allData in all other ranks will begin empty and update at each step in the ring to eventually hold all of the broadcast data
     double* allData = (double*)malloc(numDoubles*sizeof(double));
     double* send_message = (double*)malloc(blockSize*sizeof(double));
     double* recv_message = (double*)malloc(blockSize*sizeof(double));
@@ -43,7 +43,6 @@ int main(int argc, char* argv[])
             for (int i = 0; i < numDoubles; i++)
             {
                 allData[i] = (double) rand();
-                printf("rand i %d %e\n",i,allData[i]);
                 sum += allData[i];
             }
         }
@@ -81,6 +80,7 @@ int main(int argc, char* argv[])
         MPI_Barrier(MPI_COMM_WORLD);
         time =  (MPI_Wtime() - start);
         
+        //print sums of rank 1 and 0 to check that the broadcast was successful
         if (rank==1)
         {
             sum2=0;

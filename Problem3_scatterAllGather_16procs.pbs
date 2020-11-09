@@ -10,7 +10,7 @@
 #PBS -lnodes=2:ppn=8
 
 ## How much time you want to give your job to finish 48 hours max
-#PBS -lwalltime=00:10:00
+#PBS -lwalltime=00:30:00
 
 ## Where to place the run info <whatever_name_you_want>
 #PBS -N darredondo_CS542_p2
@@ -55,9 +55,6 @@ mpirun -np 16 ./scatterAllGather 22 33
 mpirun -np 16 ./scatterAllGather 23 33
 mpirun -np 16 ./scatterAllGather 24 33
 mpirun -np 16 ./scatterAllGather 25 33
-
-
-
 
 
 
