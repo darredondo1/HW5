@@ -72,10 +72,10 @@ int main(int argc, char* argv[])
             int idx = (int) ((abs(rank-k)%num_procs)*blockSize);
             for (int j = 0; j < blockSize; j++)
             {
-//                if (rank==1)
-//                {
-//                    printf("rank %d last_message %e\n",rank,last_message[j]);
- //               }
+                if (rank==1)
+                {
+                    printf("rank %d last_message %e\n",rank,last_message[j]);
+                }
                 send_message[idx+j] = last_message[j];
             }
         }
