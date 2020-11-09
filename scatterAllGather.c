@@ -37,11 +37,9 @@ int main(int argc, char* argv[])
         //create vector of 2^N random values
         if (rank==0)
         {
-            double sum=0;
             for (int i = 0; i < numDoubles; i++)
             {
                 send_message[i] = (double) rand();
-                sum += send_message[i];
             }
         }
         
@@ -80,6 +78,13 @@ int main(int argc, char* argv[])
         
         if (rank==0)
         {
+            double sum = 0;
+            for (int i=0;i<numDoubles;i++)
+            {
+                sum+=send_message[i];
+            }
+            printf("sum rank %d %e\n",rank,sum);
+            
             printf("sum rank %d %e\n",rank,sum);
             //Save result
             fPtr = fopen(fPath ,"a");
