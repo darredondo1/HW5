@@ -42,6 +42,7 @@ int main(int argc, char* argv[])
             for (int i = 0; i < numDoubles; i++)
             {
                 send_message[i] = (double) rand();
+                printf("rand i %d %e\n",i,send_message[i]);
                 sum += send_message[i];
             }
         }
