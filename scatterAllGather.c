@@ -29,20 +29,21 @@ int main(int argc, char* argv[])
     double* send_message = (double*)malloc(numDoubles*sizeof(double));
     double* last_message = (double*)malloc(blockSize*sizeof(double));
     
-    //create vector of 2^N random values
-    double sum=0;
-    if (rank==0)
-    {
-        for (int i = 0; i < numDoubles; i++)
-        {
-            send_message[i] = (double) rand();
-            sum += send_message[i];
-        }
-    }
-    
     for (int n=0;n<numTests;n++)
     {
         double start, time;
+        
+        //create vector of 2^N random values
+        double sum=0;
+        if (rank==0)
+        {
+            for (int i = 0; i < numDoubles; i++)
+            {
+                send_message[i] = (double) rand();
+                sum += send_message[i];
+            }
+        }
+        
         MPI_Barrier(MPI_COMM_WORLD);
         start = MPI_Wtime();
         
@@ -74,12 +75,12 @@ int main(int argc, char* argv[])
             {
                 sum2+=send_message[i];
             }
-            printf("sum rank %d %e",num_procs,sum2);
+            printf("sum rank %d %e\n",num_procs,sum2);
         }
         
         if (rank==0)
         {
-            printf("sum rank 0 %e",sum);
+            printf("sum rank 0 %e\n",sum);
             //Save result
             fPtr = fopen(fPath ,"a");
             if (fPtr == NULL) exit(EXIT_FAILURE);
