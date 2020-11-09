@@ -61,12 +61,12 @@ int main(int argc, char* argv[])
             MPI_Isend(last_message,blockSize,MPI_DOUBLE,send_to,k,MPI_COMM_WORLD,&send_request);
             MPI_Irecv(last_message,blockSize,MPI_DOUBLE,recv_from,k,MPI_COMM_WORLD,&recv_request);
             int idx = (int) ((rank+k)*blockSize)%numDoubles;
+            MPI_Wait(&send_request,&send_status);
+            MPI_Wait(&recv_request,&recv_status);
             for (int j = 0; j < blockSize; j++)
             {
                 send_message[idx+j] = last_message[j];
             }
-            MPI_Wait(&send_request,&send_status);
-            MPI_Wait(&recv_request,&recv_status);
         }
 
         MPI_Barrier(MPI_COMM_WORLD);
