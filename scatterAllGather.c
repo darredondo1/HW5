@@ -76,7 +76,7 @@ int main(int argc, char* argv[])
 //                {
 //                    printf("rank %d last_message %e\n",rank,last_message[j]);
 //                }
-//                send_message[idx+j] = last_message[j];
+                send_message[idx+j] = last_message[j];
             }
         }
 
