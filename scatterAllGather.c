@@ -62,7 +62,6 @@ int main(int argc, char* argv[])
             MPI_Request send_request, recv_request;
             int send_to = (int) (rank+1)%num_procs;
             int recv_from = (int) (rank+num_procs-1)%num_procs;
-            printf("rank %d recv_from %d\n",rank,recv_from);
             MPI_Isend(last_message,blockSize,MPI_DOUBLE,send_to,k,MPI_COMM_WORLD,&send_request);
             MPI_Barrier(MPI_COMM_WORLD);
             MPI_Irecv(last_message,blockSize,MPI_DOUBLE,recv_from,k,MPI_COMM_WORLD,&recv_request);
@@ -73,10 +72,10 @@ int main(int argc, char* argv[])
             int idx = (int) ((rank+num_procs-k)%num_procs)*blockSize;
             for (int j = 0; j < blockSize; j++)
             {
-//                if (rank==1)
-//                {
-//                    printf("rank %d last_message %e\n",rank,last_message[j]);
-//                }
+                if (rank==1)
+                {
+                    printf("rank %d last_message %e\n",rank,last_message[j]);
+                }
                 send_message[idx+j] = last_message[j];
             }
         }
