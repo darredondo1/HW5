@@ -27,8 +27,9 @@ int main(int argc, char* argv[])
     
     //send_message in rank 0 will be the data to be broadcast
     //send_message in all other ranks will update at each step in the ring to eventually hold all of the broadcast data
-    double* send_message = (double*)malloc(numDoubles*sizeof(double));
-    double* last_message = (double*)malloc(blockSize*sizeof(double));
+    double* allData = (double*)malloc(numDoubles*sizeof(double));
+    double* send_message = (double*)malloc(blockSize*sizeof(double));
+    double* recv_message = (double*)malloc(blockSize*sizeof(double));
     
     for (int n=0;n<numTests;n++)
     {
@@ -41,19 +42,19 @@ int main(int argc, char* argv[])
             sum=0;
             for (int i = 0; i < numDoubles; i++)
             {
-                send_message[i] = (double) rand();
-                printf("rand i %d %e\n",i,send_message[i]);
-                sum += send_message[i];
+                allData[i] = (double) rand();
+                printf("rand i %d %e\n",i,allData[i]);
+                sum += allData[i];
             }
         }
         
         start = MPI_Wtime();
         
-        MPI_Scatter(send_message,blockSize,MPI_DOUBLE,last_message,blockSize,  MPI_DOUBLE,0,MPI_COMM_WORLD);
+        MPI_Scatter(allData,blockSize,MPI_DOUBLE,send_message,blockSize,  MPI_DOUBLE,0,MPI_COMM_WORLD);
         
         for (int j = 0; j < blockSize; j++)
         {
-            send_message[rank*blockSize + j] = last_message[j];
+            allData[rank*blockSize + j] = send_message[j];
         }
         
         for (int k=1;k<num_procs;k++)
@@ -62,9 +63,8 @@ int main(int argc, char* argv[])
             MPI_Request send_request, recv_request;
             int send_to = (int) (rank+1)%num_procs;
             int recv_from = (int) (rank+num_procs-1)%num_procs;
-            MPI_Isend(last_message,blockSize,MPI_DOUBLE,send_to,k,MPI_COMM_WORLD,&send_request);
-            MPI_Barrier(MPI_COMM_WORLD);
-            MPI_Irecv(last_message,blockSize,MPI_DOUBLE,recv_from,k,MPI_COMM_WORLD,&recv_request);
+            MPI_Isend(send_message,blockSize,MPI_DOUBLE,send_to,k,MPI_COMM_WORLD,&send_request);
+            MPI_Irecv(recv_message,blockSize,MPI_DOUBLE,recv_from,k,MPI_COMM_WORLD,&recv_request);
             MPI_Wait(&send_request,&send_status);
             MPI_Wait(&recv_request,&recv_status);
             
@@ -72,11 +72,12 @@ int main(int argc, char* argv[])
             int idx = (int) ((rank+num_procs-k)%num_procs)*blockSize;
             for (int j = 0; j < blockSize; j++)
             {
+                send_message[j] = recv_message[j];
                 if (rank==1)
                 {
-                    printf("rank %d last_message %e\n",rank,last_message[j]);
+                    printf("rank %d last_message %e\n",rank,send_message[j]);
                 }
-                send_message[idx+j] = last_message[j];
+                allData[idx+j] = send_message[j];
             }
         }
 
