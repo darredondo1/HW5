@@ -10,7 +10,8 @@
 int main(int argc, char* argv[])
 {
     MPI_Init(&argc, &argv);
-    int rank, num_procs, sum, sum2;
+    int rank, num_procs;
+    double sum, sum2;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &num_procs);
     
@@ -37,9 +38,11 @@ int main(int argc, char* argv[])
         //create vector of 2^N random values
         if (rank==0)
         {
+            sum=0;
             for (int i = 0; i < numDoubles; i++)
             {
                 send_message[i] = (double) rand();
+                sum += send_message[i];
             }
         }
         
@@ -58,7 +61,10 @@ int main(int argc, char* argv[])
             MPI_Isend(last_message,blockSize,MPI_DOUBLE,send_to,k,MPI_COMM_WORLD,&send_request);
             MPI_Irecv(last_message,blockSize,MPI_DOUBLE,recv_from,k,MPI_COMM_WORLD,&recv_request);
             int idx = (int) ((rank+k)*blockSize)%num_procs;
-            send_message[idx]=*last_message;
+            for (int j = 0; j < blockSize; j++)
+            {
+                send_message[idx+j] = last_message[j]
+            }
             MPI_Wait(&send_request,&send_status);
             MPI_Wait(&recv_request,&recv_status);
         }
@@ -68,24 +74,17 @@ int main(int argc, char* argv[])
         
         if (rank==1)
         {
-            double sum2 = 0;
+            sum2=0;
             for (int i=0;i<numDoubles;i++)
             {
-                sum2+=send_message[i];
+                sum2 += send_message[i];
             }
-            printf("sum rank %d %e\n",rank,sum2);
+            printf("rank %d sum %e",rank,sum2);
         }
         
         if (rank==0)
         {
-            double sum = 0;
-            for (int i=0;i<numDoubles;i++)
-            {
-                sum+=send_message[i];
-            }
-            printf("sum rank %d %e\n",rank,sum);
-            
-            printf("sum rank %d %e\n",rank,sum);
+            printf("rank %d sum %e",rank,sum);
             //Save result
             fPtr = fopen(fPath ,"a");
             if (fPtr == NULL) exit(EXIT_FAILURE);
