@@ -73,7 +73,7 @@ int main(int argc, char* argv[])
         if (rank==1)
         {
             double sum2 = 0;
-            for (int i=0;i<numDoubles;n++)
+            for (int i=0;i<numDoubles;i++)
             {
                 sum2+=send_message[i];
             }
@@ -82,7 +82,7 @@ int main(int argc, char* argv[])
         
         if (rank==0)
         {
-            printf("sum rank 0 %e\n",sum);
+            printf("sum rank %d %e\n",rank,sum);
             //Save result
             fPtr = fopen(fPath ,"a");
             if (fPtr == NULL) exit(EXIT_FAILURE);
