@@ -50,7 +50,10 @@ int main(int argc, char* argv[])
         
         MPI_Scatter(send_message,blockSize,MPI_DOUBLE,last_message,blockSize,  MPI_DOUBLE,0,MPI_COMM_WORLD);
         
-        send_message[rank*blockSize] = *last_message;
+        for (int j = 0; j < blockSize; j++)
+        {
+            send_message[idx+j] = last_message[j];
+        }
         
         for (int k=1;k<num_procs;k++)
         {
