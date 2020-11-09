@@ -52,7 +52,7 @@ int main(int argc, char* argv[])
         
         for (int j = 0; j < blockSize; j++)
         {
-            send_message[idx+j] = last_message[j];
+            send_message[j] = last_message[j];
         }
         
         for (int k=1;k<num_procs;k++)
