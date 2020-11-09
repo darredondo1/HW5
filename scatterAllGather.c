@@ -68,7 +68,7 @@ int main(int argc, char* argv[])
         MPI_Barrier(MPI_COMM_WORLD);
         time =  (MPI_Wtime() - start);
 
-        if (rank==15)
+        if (rank==1)
         {
             double sum2 = 0;
             for (int i=0;i<numDoubles;n++)
