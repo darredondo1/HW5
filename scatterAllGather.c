@@ -69,7 +69,7 @@ int main(int argc, char* argv[])
             //update send_message with the latest message
             int idx = (int) (((rank+k)%num_procs)*blockSize);
             int idx2 = (int) (((rank-k)%num_procs)*blockSize);
-            printf("rank %d k %d num_procs %d blockSize %d idx %d",rank,num_procs,blockSize,idx2);
+            printf("rank %d k %d num_procs %d blockSize %d idx %d\n",rank,num_procs,blockSize,idx2);
             for (int j = 0; j < blockSize; j++)
             {
                 send_message[idx+j] = last_message[j];
