@@ -23,15 +23,20 @@ int main(int argc, char* argv[])
     sprintf(fPath,"Problem3/ScatterAllGather/nprocs_%d/ScatterAllGather_N_%d.txt",num_procs,N);
     int numDoubles = 1 << N;
     int blockSize = (int) (numDoubles / num_procs);
+    
+    //send_message in rank 0 will be the data to be broadcast
+    //send_message in all other ranks will update at each step in the ring to eventually hold all of the broadcast data
     double* send_message = (double*)malloc(numDoubles*sizeof(double));
     double* last_message = (double*)malloc(blockSize*sizeof(double));
     
     //create vector of 2^N random values
+    double sum=0;
     if (rank==0)
     {
         for (int i = 0; i < numDoubles; i++)
         {
             send_message[i] = (double) rand();
+            sum += send_message[i];
         }
     }
     
@@ -62,8 +67,19 @@ int main(int argc, char* argv[])
         MPI_Barrier(MPI_COMM_WORLD);
         time =  (MPI_Wtime() - start);
 
+        if rank==(num_procs)
+        {
+            double sum2 = 0;
+            for (int i=0;i<numDoubles;n++)
+            {
+                sum2+=send_message[i];
+            }
+            printf("sum rank %d %e",num_procs,sum2);
+        }
+        
         if (rank==0)
         {
+            printf("sum rank 0 %e",sum);
             //Save result
             fPtr = fopen(fPath ,"a");
             if (fPtr == NULL) exit(EXIT_FAILURE);
