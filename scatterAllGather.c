@@ -63,6 +63,7 @@ int main(int argc, char* argv[])
             int idx = (int) ((rank+k)*blockSize)%numDoubles;
             MPI_Wait(&send_request,&send_status);
             MPI_Wait(&recv_request,&recv_status);
+            MPI_Barrier(MPI_COMM_WORLD);
             for (int j = 0; j < blockSize; j++)
             {
                 send_message[idx+j] = last_message[j];
