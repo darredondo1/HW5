@@ -32,6 +32,7 @@ int main(int argc, char* argv[])
     for (int n=0;n<numTests;n++)
     {
         double start, time;
+        MPI_Barrier(MPI_COMM_WORLD);
         
         //create vector of 2^N random values
         if (rank==0)
@@ -44,7 +45,6 @@ int main(int argc, char* argv[])
             }
         }
         
-        MPI_Barrier(MPI_COMM_WORLD);
         start = MPI_Wtime();
         
         MPI_Scatter(send_message,blockSize,MPI_DOUBLE,last_message,blockSize,  MPI_DOUBLE,0,MPI_COMM_WORLD);
@@ -75,7 +75,7 @@ int main(int argc, char* argv[])
             {
                 sum2+=send_message[i];
             }
-            printf("sum rank %d %e\n",num_procs,sum2);
+            printf("sum rank %d %e\n",rank,sum2);
         }
         
         if (rank==0)
